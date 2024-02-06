@@ -1,5 +1,9 @@
 import express from "express";
+import mongoose from "mongoose";
 
+mongoose.connect(process.env.MONGO).then(() => {
+  console.log("mongodb is connected");
+});
 const app = express();
 
 app.listen(3000, () => {
