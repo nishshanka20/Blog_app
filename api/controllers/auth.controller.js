@@ -1,8 +1,9 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
+import { errorHandler } from "../utils/error.js";
 
-export const signup = async (req, res) => {
+export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
 
   if (
@@ -13,7 +14,7 @@ export const signup = async (req, res) => {
     email === "" ||
     password === ""
   ) {
-    return res.status(400).json({ message: "All fields are required" });
+    next(errorHandler(400, "All fields are required"));
   }
 
   const hashPassword = bcrypt.hashSync(password, 10);
@@ -29,7 +30,6 @@ export const signup = async (req, res) => {
     await newUser.save();
     res.json("signup successfully");
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Error creating user");
+    next(err);
   }
 };
