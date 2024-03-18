@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
 import {signInStart,signInSuccess,signInFailure} from '../redux/user/userSlice';
+import OAuth from '../components/OAuth';
 
 function SignIn() {
   const [formData,setFormData]=useState({})
@@ -16,7 +17,7 @@ function SignIn() {
   }
   const handleSumbit=async (e) =>{
     e.preventDefault();
-    if(!formData.username  || !formData.password){
+    if(!formData.email  || !formData.password){
       return  dispatch(signInFailure('Please fill in all fields'))
     }
     try{
@@ -63,8 +64,8 @@ function SignIn() {
         <div className='flex-1'>
           <form className='flex flex-col gap-4' onSubmit={handleSumbit}>
            <div >
-            <Label value="Your username"/>
-            <TextInput type="text" placeholder="Username" id="username" onChange={handleChange}/>
+            <Label value="Your email"/>
+            <TextInput type="text" placeholder="Email" id="email" onChange={handleChange}/>
            </div>
            
            <div>
@@ -82,6 +83,7 @@ function SignIn() {
               ):( 'Sign in')
             }
            </Button>
+           <OAuth/>
           </form>
           <div  className='flex gap-2 text-sm mt-5'>
             <span>Don't have an account?</span>
